@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import {useState, useEffect} from 'react';
 import './App.css';
+import axios from 'axios';
 
-function App() {
+
+const App = () => {
+
+  const [simpleItems, setSimpleItems] = useState([])
+
+  useEffect(()=>{
+    axios.get('http://localhost:3000/api/v1/simple_items').then((res) => {
+      setSimpleItems(res.data)
+    })
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hello World</h1>
+      <table>
+        <thead>
+        <tr>
+          <th>Simple Items</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          {
+            simpleItems.map((item) => <td>{item.value}</td>)
+          }
+        </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
